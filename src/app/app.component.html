@@ -1,57 +1,68 @@
 <main>
-  <h1>&#9988; Snip</h1>
+  <section class="hero">
+    <h1>&#9988; Snip</h1>
+    <p class="hero-sub">Paste a long URL, get a crisp short one.</p>
 
-  <section class="shorten">
-    <form (ngSubmit)="submit()">
-      <input
-        type="url"
-        placeholder="https://example.com/very/long/url"
-        [(ngModel)]="inputUrl"
-        name="url"
-        required
-      />
-      <button type="submit" [disabled]="submitting()">
-        {{ submitting() ? 'Shortening\u2026' : 'Shorten' }}
-      </button>
-    </form>
+    <div class="shorten">
+      <form class="input-card" (ngSubmit)="submit()">
+        <input
+          type="url"
+          class="url-field"
+          placeholder="https://example.com/very/long/url"
+          [(ngModel)]="inputUrl"
+          name="url"
+          required
+        />
+        <div class="card-footer">
+          <button class="send-btn" type="submit" [disabled]="submitting()" aria-label="Shorten URL">
+            {{ submitting() ? '\u2026' : '\u2191' }}
+          </button>
+        </div>
+      </form>
 
-    @if (formError()) {
-      <p class="error">{{ formError() }}</p>
-    }
+      @if (formError()) {
+        <p class="notice error">{{ formError() }}</p>
+      }
 
-    @if (newLink(); as link) {
-      <div class="result">
-        Short link:&nbsp;<a [href]="link.shortUrl" target="_blank">{{ link.shortUrl }}</a>
-      </div>
-    }
+      @if (newLink(); as link) {
+        <div class="notice result">
+          <span class="result-label">Short link</span>
+          <a class="result-url" [href]="link.shortUrl" target="_blank">{{ link.shortUrl }}</a>
+        </div>
+      }
+    </div>
   </section>
 
   <section class="links">
-    <h2>All links</h2>
-    @if (links().length === 0) {
-      <p class="empty">No links yet.</p>
-    } @else {
-      <table>
-        <thead>
-          <tr>
-            <th>Code</th>
-            <th>Original URL</th>
-            <th>Hits</th>
-            <th>Created</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (link of links(); track link.code) {
+    <div class="links-card">
+      <div class="card-head">
+        <h2>All links</h2>
+      </div>
+      @if (links().length === 0) {
+        <p class="empty">No links yet.</p>
+      } @else {
+        <table>
+          <thead>
             <tr>
-              <td><a [href]="link.shortUrl" target="_blank">{{ link.code }}</a></td>
-              <td class="url-cell" [title]="link.url">{{ link.url }}</td>
-              <td>{{ link.hits }}</td>
-              <td>{{ link.createdAt | date:'short' }}</td>
+              <th>Code</th>
+              <th>Original URL</th>
+              <th>Hits</th>
+              <th>Created</th>
             </tr>
-          }
-        </tbody>
-      </table>
-    }
+          </thead>
+          <tbody>
+            @for (link of links(); track link.code) {
+              <tr>
+                <td><a [href]="link.shortUrl" target="_blank">{{ link.code }}</a></td>
+                <td class="url-cell" [title]="link.url">{{ link.url }}</td>
+                <td>{{ link.hits }}</td>
+                <td>{{ link.createdAt | date:'short' }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      }
+    </div>
   </section>
 </main>
 
