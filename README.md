@@ -7,8 +7,43 @@ as a Git submodule so a single clone materialises the whole application.
 snip-demo/ (main)
 ├── backend/    ← branch: backend   Bun HTTP server, in-memory store
 ├── frontend/   ← branch: frontend  Angular 19 single-page app
-└── cli/        ← branch: cli       Zero-dependency Node.js CLI
+├── cli/        ← branch: cli       Zero-dependency Node.js CLI
+├── bundle/     ← branch: bundle    GENERATED — assembled by scripts/build-bundle.mjs
+└── scripts/
+    └── build-bundle.mjs            Build + release automation
 ```
+
+---
+
+## Building the release bundle
+
+`scripts/build-bundle.mjs` pulls the latest source from every layer, compiles the
+Angular app, and assembles a self-contained deployment artefact in `bundle/`:
+
+```
+bundle/
+├── server.js       ← Bun backend (unchanged)
+├── cli.js          ← Node CLI (unchanged)
+├── public/         ← Angular build output
+├── .env            PUBLIC_DIR=./public  (tells Bun to also serve the UI)
+├── package.json    "start": "bun server.js"
+├── Dockerfile      FROM oven/bun:1-alpine
+├── .dockerignore
+└── railway.json    builder: DOCKERFILE
+```
+
+**Run locally (no push):**
+```bash
+node scripts/build-bundle.mjs
+```
+
+**Run and push both the `bundle` branch and `main`:**
+```bash
+node scripts/build-bundle.mjs --push
+```
+
+The script is a **safe no-op** when sources haven't changed — it checks the staged
+diff before every `git commit` and skips quietly.
 
 ---
 
