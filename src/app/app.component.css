@@ -1,0 +1,63 @@
+main {
+  max-width: 860px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  font-family: system-ui, sans-serif;
+}
+
+h1 { margin-bottom: 1.5rem; }
+
+/* ── shorten form ── */
+.shorten form {
+  display: flex;
+  gap: .5rem;
+}
+
+.shorten input[type="url"] {
+  flex: 1;
+  padding: .5rem .75rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.shorten button {
+  padding: .5rem 1.25rem;
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.shorten button:disabled { opacity: .6; cursor: default; }
+
+.error  { color: #dc2626; margin-top: .5rem; }
+.result { margin-top: .75rem; }
+
+/* ── links table ── */
+.links { margin-top: 2.5rem; }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .9rem;
+}
+
+th, td {
+  text-align: left;
+  padding: .5rem .75rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+th { background: #f3f4f6; font-weight: 600; }
+
+.url-cell {
+  max-width: 320px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.empty { color: #6b7280; }
